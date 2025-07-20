@@ -39,7 +39,7 @@ const Footer = () => {
 
         
             
-            <div>
+                <div>
                     <h2 className='text-base font-medium text-gray-800
                     uppercase'>Resources</h2>
                     <ul className='mt-3 flex flex-col gap-1.5'>
