@@ -35,7 +35,8 @@ const Hero = () => {
                 </div>
                 <div className='flex flex-col items-start gap-2'>
                     <label htmlFor='return-date'>Return Date</label>
-                    <input type='date' id='return-date' className='text-sm text-gray-500'
+                    <input type='date' id='return-date'min={new Date().toISOString().
+                        split('T')[0]} className='text-sm text-gray-500'
                      required></input>
                 </div>
             </div>
