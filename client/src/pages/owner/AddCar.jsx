@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import Title from '../../components/owner/Title'
 import { assets } from '../../assets/assets'
+import { useAppContext } from '../../context/AppContext'
+import toast from 'react-hot-toast'
 
 const AddCar = () => {
 
-      const currency = import.meta.env.VITE_CURRENCY
-
+  const {axios, currency} = useAppContext();
 
   const [image, setImage] = useState(null)
   const [car, setCar] = useState({
@@ -21,9 +22,48 @@ const AddCar = () => {
     description: '',
   })
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmitHandler = async (e)=>{
     e.preventDefault();
+    if(isLoading)
+      return null
+
+    setIsLoading(true)
+    try{
+      const formData = new FormData()
+      formData.append('image', image)
+      formData.append('carData', JSON.stringify(car))
+
+      const {data} = await axios.post('/api/owner/add-car', formData);
+
+      if(data.success){
+        toast.success(data.message)
+        setImage(null)
+        setCar({
+              brand: '',
+              model: '',
+              year:0,
+              pricePerDay:0,
+              category: '',
+              transmission: '',
+              fuel_type: '',
+              seating_capacity:0,
+              location: '',
+              description: '',
+        })
+      }else{
+        toast.error(data.message);
+      }
+    }
+    catch(error){
+          toast.error(error.message);
+    } finally{
+      setIsLoading(false)
+    }
   }
+
+
   return (
     <div className='px-4 py-10 md:px-10 flex-1'>
       <Title title="Add New Car" subTitle="Fill in details to list a new car for booking,
@@ -107,7 +147,7 @@ const AddCar = () => {
           </div>
            <div className='flex flex-col w-full'>
             <label>Fuel Type</label>
-            <select onChange={e=> setCar({...car, transmission:e.target.value})} value={car.fuel_type}
+            <select onChange={e=> setCar({...car, fuel_type:e.target.value})} value={car.fuel_type}
               className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'>
                 <option value="">Select a fuel type</option>
                 <option value="Gas">Gas</option>
@@ -152,13 +192,8 @@ const AddCar = () => {
          <button className='flex items-center gap-4 px-4  py-2.5 mt-4 bg-primary
          text-white rounded-md font-medium w-max cursor-pointer'>
           <img src={assets.tick_icon} alt=''></img>
-          List Your Car
+          {isLoading ? 'Listing...' : 'List Your Car'}
          </button>
-
-
-
-
-
 
       </form>
 

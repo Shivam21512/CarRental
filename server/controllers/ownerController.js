@@ -25,50 +25,52 @@ export const changeRoleToOwner = async(req,res)=>{
 }
 
 // API to List Car
-export const addCar  = async (req,res) => {
-    try{
-        const{_id} = req.user;
-        let car = JSON.parse(req.body.carData);
-        const imageFile = req.file;
+export const addCar = async (req, res) => {
+  try {
+    const { _id } = req.user;
 
-        // Upload Image to ImageKit
-        const fileBuffer = fs.readFileSync(imageFile.path)
-        const response = await imagekit.upload({
-            file:fileBuffer,
-            fileName: imageFile.originalname,
-            folder: '/cars'
-        })
-
-        // optimization through imagekit URL transformation
-        var optimizedImageUrl = imagekit.url({
-            path : response.filePath,
-            transformation : [
-                {width:'1280'},      // Width resizing
-                {quality:'auto'},    // Auto Compression
-                {format:'webp'}      // Convert to modern format
-            ]
-        });
-
-        const image = optimizedImageUrl;
-        await Car.create({...car, owner:_id, image})
-
-        res.status(200).json({
-            success:true,
-            message:"Car Added"
-        })
-
-
-
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: 'Image file is missing',
+      });
     }
-    catch(error){
-        console.log(error.message);
-        res.status(500).json({
-            success:false,
-            message:error.message
-        })
 
-    }
-}
+    let car = JSON.parse(req.body.carData);
+    const imageFile = req.file;
+
+    const fileBuffer = fs.readFileSync(imageFile.path);
+    const response = await imagekit.upload({
+      file: fileBuffer,
+      fileName: imageFile.originalname,
+      folder: '/cars',
+    });
+
+    const optimizedImageUrl = imagekit.url({
+      path: response.filePath,
+      transformation: [
+        { width: '1280' },
+        { quality: 'auto' },
+        { format: 'webp' },
+      ],
+    });
+
+    const image = optimizedImageUrl;
+
+    await Car.create({ ...car, owner: _id, image });
+
+    res.status(200).json({
+      success: true,
+      message: 'Car Added',
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 // API to list owner cars
 export const getOwnerCars = async(req,res) =>{
