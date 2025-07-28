@@ -6,8 +6,6 @@ A full-featured **Car Rental Web Application** built using the **MERN stack** (M
 
 👉 [Live Website](https://car-rental-booking-system-nine.vercel.app/)
 
-_Replace the link above with your actual Vercel deployment URL_
-
 ---
 
 ## ✨ Features
