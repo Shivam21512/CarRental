@@ -4,8 +4,6 @@ import Car from "../models/Car.js";
 import User from "../models/User.js";
 import fs from "fs";
 
-
-// API to Change Role of User
 export const changeRoleToOwner = async(req,res)=>{
     try{
         const {_id} = req.user;
@@ -24,7 +22,6 @@ export const changeRoleToOwner = async(req,res)=>{
     }
 }
 
-// API to List Car
 export const addCar = async (req, res) => {
   try {
     const { _id } = req.user;
@@ -72,7 +69,6 @@ export const addCar = async (req, res) => {
   }
 };
 
-// API to list owner cars
 export const getOwnerCars = async(req,res) =>{
   try{
     const {_id} = req.user;
@@ -92,7 +88,6 @@ export const getOwnerCars = async(req,res) =>{
   }
 }
 
-// API to Toggle Car Availability
 export const toggleCarAvailability = async(req,res)=>{
   try{
     const {_id} = req.user;
@@ -125,7 +120,6 @@ export const toggleCarAvailability = async(req,res)=>{
   }
 }
 
-// API to delete a car
 export const deleteCar = async(req,res)=>{
   try{
     const {_id} = req.user;
@@ -159,7 +153,6 @@ export const deleteCar = async(req,res)=>{
   }
 }
 
-// API to get Dashboard Data
 export const getDashboardData = async(req,res) =>{
   try{
     const {_id, role} = req.user;
@@ -204,7 +197,6 @@ export const getDashboardData = async(req,res) =>{
   }
 }
 
-// API to update user image
 export const updateUserImage = async(req,res)=>{
   try{
 

@@ -1,8 +1,6 @@
 import Booking from "../models/Booking.js"
 import Car from "../models/Car.js";
 
-
-// Function to check Availability of car for a given date
 const checkAvailability = async (car, pickupDate, returnDate) =>{
     const bookings = await Booking.find({
         car,
@@ -12,7 +10,6 @@ const checkAvailability = async (car, pickupDate, returnDate) =>{
     return bookings.length === 0;
 }
 
-// API to check Availability of cars for the given Date and location
 export const checkAvailabilityOfCar = async (req,res) => {
     try{
         const {location , pickupDate, returnDate} = req.body;
@@ -45,7 +42,6 @@ export const checkAvailabilityOfCar = async (req,res) => {
     }
 }
 
-//API to create Booking
 export const createBooking = async(req,res) =>{
     try{
         const {_id} = req.user;
@@ -85,7 +81,6 @@ export const createBooking = async(req,res) =>{
     }
 }
 
-// API to lIST uSER bOOKINGS
 export const getUserBookings = async (req,res) =>{
     try{
         const {_id} = req.user;
@@ -105,7 +100,6 @@ export const getUserBookings = async (req,res) =>{
     }
 }
 
-// API t get Owner Bookings
 export const  getOwnerBookings = async(req,res) => { 
     try{
         if(req.user.role !== 'owner'){
@@ -133,7 +127,6 @@ export const  getOwnerBookings = async(req,res) => {
     }
 }
 
-// API to chnage booking status
 export const changeBookingStatus = async(req,res) =>{
     try{
         const {_id} = req.user;

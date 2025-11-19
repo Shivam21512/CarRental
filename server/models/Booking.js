@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const {ObjectId} = mongoose.Schema.Types
 
 const bookingSchema = new mongoose.Schema({

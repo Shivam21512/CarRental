@@ -22,7 +22,6 @@ export const AppProvider = ({ children }) =>{
     
     const [cars, setCars] = useState([])
 
-    // Function to check if user is logged in
     const fetchUser = async ()=>{
         try{
             const {data} = await axios.get('/api/user/data')
@@ -39,7 +38,6 @@ export const AppProvider = ({ children }) =>{
         }
     }
 
-    // function to fetxh all cars from the server
     const fetchCars = async()=>{
         try{
             const {data} = await axios.get('/api/user/cars')
@@ -50,7 +48,6 @@ export const AppProvider = ({ children }) =>{
         }
     }
 
-    // Function to logout the user
     const logout = () => {
         localStorage.removeItem('token')
         setToken(null)
@@ -60,14 +57,12 @@ export const AppProvider = ({ children }) =>{
         toast.success('You have been logged out')
     }
 
-    // useEffect to retrieve the token from localStorage
     useEffect(() => {
         const token = localStorage.getItem('token')
         setToken(token)
         fetchCars()
     },[])
 
-    // useEffect to fetch user data when token is available
     useEffect(()=>{
         if(token){
             axios.defaults.headers.common['Authorization'] = `${token}`
@@ -91,3 +86,4 @@ export const AppProvider = ({ children }) =>{
 export const useAppContext = () => {
     return useContext  (AppContext)
 }
+
